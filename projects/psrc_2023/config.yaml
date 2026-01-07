@@ -1,0 +1,23 @@
+# DaySim Processing Pipeline Configuration for BATS 2023
+# This config file demonstrates the full pipeline with DaySim formatting
+
+# config.yaml
+
+# Define directory shorthands
+survey_dir: "C:/Joanne_PSRC/travel_models/travel-diary-survey-tools/projects/psrc_2023/data"
+output_dir: "C:/Joanne_PSRC/travel_models/travel-diary-survey-tools/projects/psrc_2023/pipeline_test"
+# Pipeline configuration
+steps:
+  - name: load_data
+    validate_input: false # This will override @step(validate=True/False) in the function definition
+    cache: true
+    params:
+      input_paths:
+        households: "{{ survey_dir }}/v_households_labels.csv"
+        persons: "{{ survey_dir }}/v_persons_labels.csv"
+        days: "{{ survey_dir }}/v_days_labels.csv"
+        unlinked_trips: "{{ survey_dir }}/v_trips_labels.csv"
+
+  - name: clean_2023_psrc_hts
+    validate_input: false
+    cache: true

@@ -21,3 +21,12 @@ steps:
   - name: clean_2023_psrc_hts
     validate_input: false
     cache: true
+
+  - name: link_trips
+    validate_input: false
+    cache: true
+    params:
+      change_mode_code: "Change mode"  # Purpose code for 'change_mode'
+      transit_mode_codes: ["Transit"] # NOTE: this is not elegant
+      max_dwell_time: 180  # in minutes
+      dwell_buffer_distance: 100  # in meters

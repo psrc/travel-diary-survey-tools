@@ -5,6 +5,7 @@ import logging
 import polars as pl
 
 from data_canon.codebook.households import ResidenceRentOwn, ResidenceType
+from data_canon.codebook.days import TravelDow
 from data_canon.models.survey import PersonDayModel
 from pipeline.decoration import step
 from utils.helpers import add_time_columns, expr_haversine
@@ -24,7 +25,22 @@ def clean_2023_psrc_hts(
     # Much wow...
     logger.info("Cleaning 2023 trip data")
 
-    unlinked_trips = unlinked_trips.rename({"arrive_second": "arrive_seconds"})
+    unlinked_trips = unlinked_trips.rename(
+        {
+        "depart_time_hour": "depart_hour",
+        "depart_time_minute": "depart_minute",
+        "depart_time_second": "depart_seconds",
+        "arrival_time_hour": "arrive_hour",
+        "arrival_time_minute": "arrive_minute",
+        "arrival_time_second": "arrive_seconds",
+        "dest_lng": "d_lon",
+        "dest_lat": "d_lat",
+        "origin_lng": "o_lon",
+        "origin_lat": "o_lat",
+        "dest_purpose_cat": "d_purpose_category",
+        "mode_class": "mode_type"
+        }
+    )
 
     # Add time columns if missing
     unlinked_trips = add_time_columns(unlinked_trips)
@@ -53,22 +69,21 @@ def clean_2023_psrc_hts(
     )
 
     # Replace any -1 value in *_purpose columns with missing code
-    unlinked_trips = unlinked_trips.with_columns(
-        [
-            pl.when(pl.col(col_name) == -1).then(996).otherwise(pl.col(col_name)).alias(col_name)
-            for col_name in [
-                "o_purpose",
-                "d_purpose",
-                "o_purpose_category",
-                "d_purpose_category",
-            ]
-        ]
-    )
+    # unlinked_trips = unlinked_trips.with_columns(
+    #     [
+    #         pl.when(pl.col(col_name) == -1).then(996).otherwise(pl.col(col_name)).alias(col_name)
+    #         for col_name in [
+    #             "o_purpose",
+    #             "d_purpose",
+    #             "o_purpose_category",
+    #             "d_purpose_category",
+    #         ]
+    #     ]
+    # )
 
     # If distance is null, recalculate it from lat/lon
     unlinked_trips = unlinked_trips.with_columns(
-        pl.when(pl.col("distance_meters").is_null())
-        .then(
+        (
             expr_haversine(
                 pl.col("o_lon"),
                 pl.col("o_lat"),
@@ -76,15 +91,14 @@ def clean_2023_psrc_hts(
                 pl.col("d_lat"),
             )
         )
-        .otherwise(pl.col("distance_meters"))
         .alias("distance_meters")
     )
 
     # If duration_minutes is null, recalculate it from depart/arrive times
     unlinked_trips = unlinked_trips.with_columns(
-        pl.when(pl.col("duration_minutes").is_null())
-        .then((pl.col("arrive_time") - pl.col("depart_time")).dt.total_minutes())
-        .otherwise(pl.col("duration_minutes"))
+        (
+            (pl.col("arrive_time") - pl.col("depart_time")).dt.total_minutes()
+        )
         .alias("duration_minutes")
     )
 
@@ -101,12 +115,16 @@ def clean_2023_psrc_hts(
         .unique()
     )
 
+    days_for_dow = days_for_dow.with_columns(
+        pl.col("travel_dow").replace_strict({value: key for key, value in TravelDow.to_dict().items()}, default=None).alias("travel_dow_value")
+    )
+
     # Create a default day for each person without days
     dummy_days = (
         persons_without_days.join(days_for_dow, on="hh_id", how="left")
         .with_columns(
             # Construct default day_id (person_id * 100 + travel_dow)
-            (pl.col("person_id") * 100 + pl.col("travel_dow")).alias("day_id")
+            (pl.col("person_id") * 100 + pl.col("travel_dow_value")).alias("day_id")
         )
         .select(PersonDayModel.model_json_schema().get("properties").keys())
     )
@@ -116,24 +134,24 @@ def clean_2023_psrc_hts(
     # Move residence type and residence rent/own from persons to households
     # Extract household-level attributes from persons table
     # Only one person reports residence_rent_own and residence_type
-    hh_attributes = persons.group_by("hh_id").agg(
-        pl.col("residence_rent_own")
-        .filter(
-            ~pl.col("residence_rent_own").is_in(
-                [ResidenceRentOwn.MISSING.value, ResidenceRentOwn.PNTA.value]
-            )
-        )
-        .mode()
-        .first()
-        .fill_null(995),
-        pl.col("residence_type")
-        .filter(pl.col("residence_type") != ResidenceType.MISSING.value)
-        .mode()
-        .first()
-        .fill_null(995),
-    )
-    # Join to households
-    households = households.join(hh_attributes, on="hh_id", how="left")
+    # hh_attributes = persons.group_by("hh_id").agg(
+    #     pl.col("residence_rent_own")
+    #     .filter(
+    #         ~pl.col("residence_rent_own").is_in(
+    #             [ResidenceRentOwn.MISSING.value, ResidenceRentOwn.PNTA.value]
+    #         )
+    #     )
+    #     .mode()
+    #     .first()
+    #     .fill_null(995),
+    #     pl.col("residence_type")
+    #     .filter(pl.col("residence_type") != ResidenceType.MISSING.value)
+    #     .mode()
+    #     .first()
+    #     .fill_null(995),
+    # )
+    # # Join to households
+    # households = households.join(hh_attributes, on="hh_id", how="left")
 
     return {
         "households": households,

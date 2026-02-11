@@ -1,57 +1,62 @@
 """Codebook enumerations for person table."""
 
 from data_canon.core.labeled_enum import LabeledEnum
-from enum import StrEnum
 
 
-class AgeCategory(StrEnum):
+class AgeCategory(LabeledEnum):
     """age value labels."""
 
     canonical_field_name = "age"
 
-    AGE_UNDER_5 = "Under 5 years old"
-    AGE_5_TO_15 = "5-15 years"
-    AGE_16_TO_17 = "16-17 years"
-    AGE_18_TO_24 = "18-24 years"
-    AGE_25_TO_34 = "25-34 years"
-    AGE_35_TO_44 = "35-44 years"
-    AGE_45_TO_54 = "45-54 years"
-    AGE_55_TO_64 = "55-64 years"
-    AGE_65_TO_74 = "65-74 years"
-    AGE_75_TO_84 = "75-84 years"
-    AGE_85_AND_UP = "85 years or older"
+    AGE_UNDER_5 = (1, "Under 5")
+    AGE_5_TO_15 = (2, "5 to 15")
+    AGE_16_TO_17 = (3, "16 to 17")
+    AGE_18_TO_24 = (4, "18 to 24")
+    AGE_25_TO_34 = (5, "25 to 34")
+    AGE_35_TO_44 = (6, "35 to 44")
+    AGE_45_TO_54 = (7, "45 to 54")
+    AGE_55_TO_64 = (8, "55 to 64")
+    AGE_65_TO_74 = (9, "65 to 74")
+    AGE_75_TO_84 = (10, "75 to 84")
+    AGE_85_AND_UP = (11, "85 and up")
 
 
-class Education(StrEnum):
+class Education(LabeledEnum):
     """education value labels."""
 
     canonical_field_name = "education"
 
-    LESS_HIGH_SCHOOL = "Less than high school"
-    HIGHSCHOOL = "High school graduate"
-    SOME_COLLEGE = "Some college"
-    VOCATIONAL = "Vocational/technical training"
-    ASSOCIATE = "Associates degree"
-    BACHELORS = "Bachelor degree"
-    GRAD = "Graduate/post-graduate degree"
-    MISSING = "Missing: Skip Logic"
-    PNTA = "Prefer not to answer"
+    LESS_HIGH_SCHOOL = (1, "Less than high school")
+    HIGHSCHOOL = (2, "High school graduate/GED")
+    SOME_COLLEGE = (3, "Some college, no degree")
+    VOCATIONAL = (4, "Vocational/technical training")
+    ASSOCIATE = (5, "Associate degree")
+    BACHELORS = (6, "Bachelor's degree")
+    GRAD = (7, "Graduate/post-graduate degree")
+    MISSING = (995, "Missing Response")
+    PNTA = (999, "Prefer not to answer")
 
 
-class Employment(StrEnum):
+class Employment(LabeledEnum):
     """employment value labels."""
 
     canonical_field_name = "employment"
 
-    EMPLOYED_FULLTIME = "Employed full time (35+ hours/week, paid)"
-    EMPLOYED_PARTTIME = "Employed part time (fewer than 35 hours/week, paid)"
-    EMPLOYED_SELF = "Self-employed"
-    UNEMPLOYED_NOT_LOOKING = "Not employed and not looking for work (e.g., retired, stay-at-home parent, student)"
-    UNEMPLOYED_LOOKING = "Unemployed and looking for work"
-    EMPLOYED_UNPAID = "Unpaid volunteer or intern"
+    EMPLOYED_FULLTIME = (1, "Employed full-time (paid)")
+    EMPLOYED_PARTTIME = (2, "Employed part-time (paid)")
+    EMPLOYED_SELF = (3, "Self-employed")
+    UNEMPLOYED_NOT_LOOKING = (
+        5,
+        "Not employed and not looking for work (e.g., retired, stay-at-home parent, student)",
+    )
+    UNEMPLOYED_LOOKING = (6, "Unemployed and looking for work")
+    EMPLOYED_UNPAID = (7, "Unpaid volunteer or intern")
     # NOTE This should include some number of hours per week
-    EMPLOYED_FURLOUGHED = "Employed but not currently working (e.g., on leave, furloughed 100%)"
-    MISSING = "Missing: Skip Logic"
+    EMPLOYED_FURLOUGHED = (
+        8,
+        "Employed, but not currently working (e.g., on leave, furloughed 100%)",
+    )
+    MISSING = (995, "Missing Response")
     # NOTE: This should be broken out into multiple categories if possible
     # UNEMPLOYED_PARENT = (6, "Not employed and not looking, full-time parent")
     # UNEMPLOYED_STUDENT = (7, "Not employed and not looking, enrolled as full-time student")  # noqa: E501
@@ -253,17 +258,23 @@ class SchoolType(LabeledEnum):
     OTHER = (997, "Other")
 
 
-class Student(StrEnum):
+class Student(LabeledEnum):
     """student value labels."""
 
-    canonical_field_name = "adult_student"
+    canonical_field_name = "student"
 
-    FULLTIME_INPERSON = "Full-time student, currently attending some or all classes in-person"
-    PARTTIME_INPERSON = "Part-time student, currently attending some or all classes in-person"
-    NONSTUDENT = "No, not a student"
-    PARTTIME_ONLINE = "Part-time student, ONLY online classes"
-    FULLTIME_ONLINE = "Full-time student, ONLY online classes"
-    MISSING = "Missing Response"
+    FULLTIME_INPERSON = (
+        0,
+        "Full-time student, currently attending some or all classes in-person",
+    )
+    PARTTIME_INPERSON = (
+        1,
+        "Part-time student, currently attending some or all classes in-person",
+    )
+    NONSTUDENT = (2, "Not a student")
+    PARTTIME_ONLINE = (3, "Part-time student, ONLY online classes")
+    FULLTIME_ONLINE = (4, "Full-time student, ONLY online classes")
+    MISSING = (995, "Missing Response")
 
 
 class CommuteFreq(LabeledEnum):

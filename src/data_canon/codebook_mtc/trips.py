@@ -3,7 +3,6 @@
 from typing import ClassVar
 
 from data_canon.core.labeled_enum import LabeledEnum
-from enum import StrEnum
 
 
 class Purpose(LabeledEnum):
@@ -150,13 +149,14 @@ class PurposeToCategoryMap:
         """Get the category for a given purpose code."""
         return cls.PURPOSE_TO_CATEGORY.get(purpose, PurposeCategory.OTHER)
 
-class Driver(StrEnum):
+
+class Driver(LabeledEnum):
     """driver value labels."""
 
-    DRIVER = "Driver"
-    PASSENGER = "Passenger"
-    BOTH = "Both (switched drivers during trip)"
-    MISSING = "Missing: Skip Logic"
+    DRIVER = (1, "Driver")
+    PASSENGER = (2, "Passenger")
+    BOTH = (3, "Both (switched drivers during trip)")
+    MISSING = (995, "Missing Response")
 
 
 class Mode(LabeledEnum):
@@ -445,20 +445,26 @@ class ModeType(LabeledEnum):
         }
 
 
-class AccessEgressMode(StrEnum):
+class AccessEgressMode(LabeledEnum):
     """transit_access value labels."""
 
     # NOTE: Why is this not just inherited from Mode???
 
-    WALK = "Walked or jogged"
-    BICYCLE = "Bicycle or e-bicycle"
-    TRANSFER_BUS = "Transferred from another bus, shuttle, or vanpool"
-    MICROMOBILITY = "Scooter, moped, skateboard"
-    TRANSFER_OTHER = "Transferred from other transit (e.g., ferry, air)"
-    TNC = "Uber/Lyft, taxi, or car service"
-    CAR_HOUSEHOLD = "Drove and parked a car (e.g., a vehicle in my household)"
-    CAR_OTHER = "Drove and parked a carshare vehicle (e.g., ZipCar, Car2Go)"
-    DROPOFF_HOUSEHOLD = "Got dropped off in my own household's vehicle (or motorcycle)"
-    DROPOFF_OTHER = "Got dropped off in another vehicle (or motorcycle)"
-    MISSING = "Missing: Skip Logic"
-    OTHER = "Other"
+    WALK = (1, "Walked (or jogged/wheelchair)")
+    BICYCLE = (2, "Bicycle")
+    TRANSFER_BUS = (3, "Transferred from another bus")
+    MICROMOBILITY = (4, "Micromobility (e.g., scooter, moped, skateboard)")
+    TRANSFER_OTHER = (5, "Transferred from other transit (e.g., rail, air)")
+    TNC = (6, "Uber/Lyft, taxi, or car service")
+    CAR_HOUSEHOLD = (
+        7,
+        "Drove and parked my own household's vehicle (or motorcycle)",
+    )
+    CAR_OTHER = (8, "Drove and parked another vehicle (or motorcycle)")
+    DROPOFF_HOUSEHOLD = (
+        9,
+        "Got dropped off in my own household's vehicle (or motorcycle)",
+    )
+    DROPOFF_OTHER = (10, "Got dropped off in another vehicle (or motorcycle)")
+    MISSING = (995, "Missing Response")
+    OTHER = (997, "Other")

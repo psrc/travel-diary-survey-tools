@@ -193,11 +193,14 @@ def extract_tours(
     tours = validate_and_correct_tours(tours, linked_trips_with_tour_dir)
 
     # Step 8: Add tour_id and joint_tour_id to unlinked_trips
-    unlinked_trips_with_tour_ids = unlinked_trips.join(
-        linked_trips_with_tour_dir.select("linked_trip_id", "tour_id", "joint_tour_id"),
-        on="linked_trip_id",
-        how="left",
-    )
+    if unlinked_trips!=None:
+        unlinked_trips_with_tour_ids = unlinked_trips.join(
+            linked_trips_with_tour_dir.select("linked_trip_id", "tour_id", "joint_tour_id"),
+            on="linked_trip_id",
+            how="left",
+        )
+    else:
+        unlinked_trips_with_tour_ids = None
 
     # Drop temporary columns, any starting with underscore
     for df in [linked_trips_with_tour_dir, tours]:

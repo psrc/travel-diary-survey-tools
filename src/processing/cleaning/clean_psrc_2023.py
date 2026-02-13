@@ -25,6 +25,30 @@ def clean_2023_psrc_hts(
     # Much wow...
     logger.info("Cleaning 2023 trip data")
 
+    households = households.rename(
+        {
+        "home_lng": "home_lon",
+        }
+    )
+
+    persons = persons.rename(
+        {
+        "adult_student": "student",
+        "schooltype": "school_type",
+        "work_lng": "work_lon",
+        "school_loc_lat": "school_lat",
+        "school_loc_lng": "school_lon",
+        }
+    )
+
+    # change data types
+    persons = persons.with_columns(
+        [
+            pl.col(col).cast(pl.Float32, strict=False).alias(col)
+            for col in ["school_lat", "school_lon", "work_lat", "work_lon"]
+        ]
+    )
+
     # combine 5-15 years old
     persons = persons.with_columns(
         pl.when(pl.col("age").is_in(["5-11 years", "12-15 years"]))
@@ -35,10 +59,10 @@ def clean_2023_psrc_hts(
 
     # refactor part-time student
     persons = persons.with_columns(
-        pl.when(pl.col("adult_student")=="Part-time student")
+        pl.when(pl.col("student")=="Part-time student")
         .then(pl.lit("Part-time student, currently attending some or all classes in-person"))
-        .otherwise(pl.col("adult_student"))
-        .alias("adult_student")
+        .otherwise(pl.col("student"))
+        .alias("student")
     )
 
     # rename variables in trip table
@@ -106,6 +130,17 @@ def clean_2023_psrc_hts(
         .when(pl.col("access_mode").is_in(["NA"]))
         .then(pl.lit("Missing: Skip Logic"))
         .otherwise(pl.col("access_mode")).alias("access_mode")
+        
+    )
+
+    linked_trips = linked_trips.with_columns(
+        [
+            pl.when(pl.col(col) == "NA")
+            .then(pl.lit("Missing Response"))
+            .otherwise(pl.col(col)).alias(col)
+            for col in ["o_purpose_category", "d_purpose_category", "o_purpose", "d_purpose"]
+
+        ]
         
     )
 

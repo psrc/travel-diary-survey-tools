@@ -232,31 +232,31 @@ class SchoolFreq(LabeledEnum):
     NEVER = (996, "Never")
 
 
-class SchoolType(LabeledEnum):
+class SchoolType(StrEnum):
     """school_type value labels."""
 
     canonical_field_name = "school_type"
 
-    ATHOME = (1, "Cared for at home")
-    DAYCARE = (2, "Daycare outside home")
-    PRESCHOOL = (3, "Preschool")
-    HOME_SCHOOL = (4, "Home school")
-    ELEMENTARY = (5, "Elementary school (public, private, charter)")
-    MIDDLE_SCHOOL = (6, "Middle school (public, private, charter)")
-    HIGH_SCHOOL = (7, "High school (public, private, charter)")
-    VOCATIONAL = (10, "Vocational/technical school")
-    COLLEGE_2YEAR = (11, "2-year college")
-    COLLEGE_4YEAR = (12, "4-year college")
-    GRADUATE_SCHOOL = (13, "Graduate or professional school")
-    MISSING = (995, "Missing Response")
-    PNTA = (999, "Prefer not to answer")
-    OTHER = (997, "Other")
+    ATHOME = "Cared for at home"
+    DAYCARE = "Daycare"
+    PRESCHOOL = "Preschool"
+    HOME_SCHOOL = "Home school"
+    ELEMENTARY = "Elementary school (public, private, charter)"
+    MIDDLE_SCHOOL = "Middle school (public, private, charter)"
+    HIGH_SCHOOL = "High school (public, private, charter)"
+    VOCATIONAL = "Vocational/technical school"
+    COLLEGE_2YEAR = "2-year college"
+    COLLEGE_4YEAR = "4-year college"
+    GRADUATE_SCHOOL = "Graduate or professional school"
+    MISSING = "Missing: Skip Logic"
+    PNTA = "Prefer not to answer"
+    OTHER = "Other"
 
 
 class Student(StrEnum):
     """student value labels."""
 
-    canonical_field_name = "adult_student"
+    canonical_field_name = "student"
 
     FULLTIME_INPERSON = "Full-time student, currently attending some or all classes in-person"
     PARTTIME_INPERSON = "Part-time student, currently attending some or all classes in-person"

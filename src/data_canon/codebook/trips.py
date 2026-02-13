@@ -6,94 +6,74 @@ from data_canon.core.labeled_enum import LabeledEnum
 from enum import StrEnum
 
 
-class Purpose(LabeledEnum):
+class Purpose(StrEnum):
     """Base class for purpose value labels."""
 
-    HOME = (1, "Went home")
-    WORK_VOLUNTEER = (2, "Went to work, work-related, volunteer-related")
-    SCHOOL = (3, "Attended school/class")
-    SHOPPING_ERRANDS = (4, "Appointment, shopping, or errands (e.g., gas)")
-    ESCORT = (5, "Dropped off, picked up, or accompanied another person")
-    SOCIAL_LEISURE = (7, "Social, leisure, religious, entertainment activity")
-    PRIMARY_WORKPLACE = (10, "Went to primary workplace")
-    WORK_ACTIVITY = (
-        11,
-        "Went to work-related activity (e.g., meeting, delivery, worksite)",
-    )
-    VOLUNTEERING = (13, "Volunteering")
-    OTHER_WORK = (14, "Other work-related")
-    K12_SCHOOL = (21, "Attend K-12 school")
-    COLLEGE = (22, "Attend college/university")
-    OTHER_CLASS = (23, "Attend other type of class (e.g., cooking class)")
-    OTHER_EDUCATION = (
-        24,
-        "Attend other education-related activity (e.g., field trip)",
-    )
-    VOCATIONAL = (25, "Attend vocational education class")
-    DAYCARE = (26, "Attend daycare or preschool")
-    GROCERY = (30, "Grocery shopping")
-    GAS = (31, "Got gas")
-    ROUTINE_SHOPPING = (32, "Other routine shopping (e.g., pharmacy)")
-    ERRAND_NO_APPT = (33, "Errand without appointment (e.g., post office)")
-    MEDICAL = (34, "Medical visit (e.g., doctor, dentist)")
-    MAJOR_SHOPPING = (36, "Shopping for major item (e.g., furniture, car)")
-    ERRAND_WITH_APPT = (37, "Errand with appointment (e.g., haircut)")
-    OTHER_ACTIVITY = (
-        44,
-        "Other activity only (e.g., attend meeting, pick-up or drop-off item)",
-    )
-    PICK_UP = (45, "Pick someone up")
-    DROP_OFF = (46, "Drop someone off")
-    ACCOMPANY = (47, "Accompany someone only (e.g., go along for the ride)")
-    PICK_UP_AND_DROP_OFF = (48, "BOTH pick up AND drop off")
-    DINING = (50, "Dined out, got coffee, or take-out")
-    EXERCISE = (51, "Exercise or recreation (e.g., gym, jog, bike, walk dog)")
-    SOCIAL = (52, "Social activity (e.g., visit friends/relatives)")
-    ENTERTAINMENT = (
-        53,
-        "Leisure/entertainment/cultural (e.g., cinema, museum, park)",
-    )
-    RELIGIOUS_CIVIC = (54, "Religious/civic/volunteer activity")
-    FAMILY_ACTIVITY = (56, "Family activity (e.g., watch child's game)")
-    MODE_CHANGE = (
-        60,
-        "Changed or transferred mode (e.g., waited for bus or exited bus)",
-    )
-    OTHER_ERRAND = (61, "Other errand")
-    OTHER_SOCIAL = (62, "Other social")
-    OTHER = (99, "Other reason")
-    OTHER_RESIDENCE = (
-        150,
-        "Went to another residence (e.g., someone else's home, second home)",
-    )
-    TEMP_LODGING = (
-        152,
-        "Went to temporary lodging (e.g., hotel, vacation rental)",
-    )
-    MISSING = (995, "Missing Response")
-    PNTA = (999, "Prefer not to answer")
-    NOT_IMPUTABLE = (996, "Not imputable")
+    HOME = "Went home"
+
+    PRIMARY_WORKPLACE = "Went to primary workplace"
+    WORK_ACTIVITY = "Went to work-related activity (e.g., meeting, delivery, worksite)"
+    OTHER_WORK = "Went to other work-related activity"
+    VOLUNTEERING = "Volunteering"
+
+    K12_SCHOOL = "Attend K-12 school"
+    DAYCARE = "Attend daycare or preschool"
+    SCHOOL = "Went to school/daycare (e.g., daycare, K-12, college)"
+    COLLEGE = "Attend college/university"
+    VOCATIONAL = "Attend vocational education class"
+    OTHER_EDUCATION = "Attend other education-related activity (e.g., field trip)"
+    OTHER_CLASS = "Attend other type of class (e.g., cooking class)"
+
+    DROP_OFF = "Drop someone off"
+    PICK_UP = "Pick someone up"
+    PICK_UP_AND_DROP_OFF = "BOTH pick up AND drop off"
+    ACCOMPANY = "Accompany someone only (e.g., go along for the ride)"
+    ESCORT = "Dropped off, picked up, or accompanied another person"
+
+    GROCERY = "Grocery shopping"
+    OTHER_SHOPPING = "Other shopping (e.g., mall, pet store)"
+
+    DINING = "Went to restaurant to eat/get take-out"
+
+    EXERCISE = "Exercise or recreation (e.g., gym, jog, bike, walk dog)"
+    SOCIAL = "Social event (e.g., visit friends, family, co-workers)"
+    OTHER_SOCIAL = "Other social/leisure"
+    FAMILY_ACTIVITY = "Went to a family activity (e.g., child's softball game)"
+    TRAVEL = "Vacation/Traveling (rMove only)"
+    RECREATION = "Recreational event (e.g., movies, sporting event)"
+    RELIGIOUS_CIVIC = "Religious/civic/volunteer activity"
+
+    MEDICAL = "Medical appointment (e.g., doctor, dentist)"
+    SHOPPING_ERRANDS = "Appointment, shopping, or errands (e.g., gas)"
+    OTHER_ERRAND = "Other appointment/errands"
+    PERSONAL_BUSINESS = "Personal business (e.g., bank, post office)"
+    GAS = "Got gas"
+
+    MODE_CHANGE = "Changed or transferred mode (e.g., change from ferry to bus)"
+    OTHER_RESIDENCE = "Went to another residence (e.g., someone else's home, second home)"
+    TEMP_LODGING = "Went to temporary lodging (e.g., hotel, vacation rental)"
+    OTHER = "Other reason"
 
 
-class PurposeCategory(LabeledEnum):
+class PurposeCategory(StrEnum):
     """d_purpose_category value labels."""
 
-    HOME = (1, "Home")
-    WORK = (2, "Work")
-    WORK_RELATED = (3, "Work related")
-    SCHOOL = (4, "School")
-    SCHOOL_RELATED = (5, "School related")
-    ESCORT = (6, "Escort")
-    SHOP = (7, "Shop")
-    MEAL = (8, "Meal")
-    SOCIALREC = (9, "Social or recreational")
-    ERRAND = (10, "Errand")
-    CHANGE_MODE = (11, "Change mode")
-    OVERNIGHT = (12, "Overnight")
-    OTHER = (13, "Other")
-    MISSING = (995, "Missing Response")
-    PNTA = (999, "Prefer not to answer")
-    NOT_IMPUTABLE = (996, "Not imputable")
+    HOME = "Home"
+    WORK = "Work"
+    WORK_RELATED = "Work-related"
+    SCHOOL = "School"
+    SCHOOL_RELATED = "School-related"
+    ESCORT = "Escort"
+    SHOP = "Shopping"
+    MEAL = "Meal"
+    SOCIALREC = "Social/Recreation"
+    ERRAND = "Personal Business/Errand/Appointment"
+    CHANGE_MODE = "Change mode"
+    OVERNIGHT = "Overnight"
+    OTHER = "Other"
+    MISSING = "Missing Response"
+    PNTA = "Prefer not to answer"
+    NOT_IMPUTABLE = "Not imputable"
 
 
 class PurposeToCategoryMap:
@@ -103,46 +83,39 @@ class PurposeToCategoryMap:
         Purpose.HOME: PurposeCategory.HOME,
         Purpose.PRIMARY_WORKPLACE: PurposeCategory.WORK,
         Purpose.WORK_ACTIVITY: PurposeCategory.WORK_RELATED,
-        Purpose.VOLUNTEERING: PurposeCategory.WORK_RELATED,
         Purpose.OTHER_WORK: PurposeCategory.WORK_RELATED,
-        Purpose.WORK_VOLUNTEER: PurposeCategory.WORK_RELATED,
+        Purpose.VOLUNTEERING: PurposeCategory.WORK_RELATED,
         Purpose.K12_SCHOOL: PurposeCategory.SCHOOL,
-        Purpose.COLLEGE: PurposeCategory.SCHOOL,
         Purpose.DAYCARE: PurposeCategory.SCHOOL,
-        Purpose.VOCATIONAL: PurposeCategory.SCHOOL,
-        Purpose.OTHER_CLASS: PurposeCategory.SCHOOL_RELATED,
-        Purpose.OTHER_EDUCATION: PurposeCategory.SCHOOL_RELATED,
         Purpose.SCHOOL: PurposeCategory.SCHOOL,
-        Purpose.PICK_UP: PurposeCategory.ESCORT,
+        Purpose.COLLEGE: PurposeCategory.SCHOOL,
+        Purpose.VOCATIONAL: PurposeCategory.SCHOOL,
+        Purpose.OTHER_EDUCATION: PurposeCategory.SCHOOL_RELATED,
+        Purpose.OTHER_CLASS: PurposeCategory.SCHOOL_RELATED,
         Purpose.DROP_OFF: PurposeCategory.ESCORT,
-        Purpose.ACCOMPANY: PurposeCategory.ESCORT,
+        Purpose.PICK_UP: PurposeCategory.ESCORT,
         Purpose.PICK_UP_AND_DROP_OFF: PurposeCategory.ESCORT,
+        Purpose.ACCOMPANY: PurposeCategory.ESCORT,
         Purpose.ESCORT: PurposeCategory.ESCORT,
         Purpose.GROCERY: PurposeCategory.SHOP,
-        Purpose.ROUTINE_SHOPPING: PurposeCategory.SHOP,
-        Purpose.MAJOR_SHOPPING: PurposeCategory.SHOP,
-        Purpose.SHOPPING_ERRANDS: PurposeCategory.SHOP,
+        Purpose.OTHER_SHOPPING: PurposeCategory.SHOP,
         Purpose.DINING: PurposeCategory.MEAL,
         Purpose.EXERCISE: PurposeCategory.SOCIALREC,
         Purpose.SOCIAL: PurposeCategory.SOCIALREC,
-        Purpose.ENTERTAINMENT: PurposeCategory.SOCIALREC,
-        Purpose.RELIGIOUS_CIVIC: PurposeCategory.SOCIALREC,
-        Purpose.FAMILY_ACTIVITY: PurposeCategory.SOCIALREC,
-        Purpose.SOCIAL_LEISURE: PurposeCategory.SOCIALREC,
         Purpose.OTHER_SOCIAL: PurposeCategory.SOCIALREC,
-        Purpose.GAS: PurposeCategory.ERRAND,
-        Purpose.ERRAND_NO_APPT: PurposeCategory.ERRAND,
+        Purpose.FAMILY_ACTIVITY: PurposeCategory.SOCIALREC,
+        Purpose.TRAVEL: PurposeCategory.SOCIALREC,
+        Purpose.RECREATION: PurposeCategory.SOCIALREC,
+        Purpose.RELIGIOUS_CIVIC: PurposeCategory.SOCIALREC,
         Purpose.MEDICAL: PurposeCategory.ERRAND,
-        Purpose.ERRAND_WITH_APPT: PurposeCategory.ERRAND,
-        Purpose.OTHER_ACTIVITY: PurposeCategory.ERRAND,
+        Purpose.SHOPPING_ERRANDS: PurposeCategory.ERRAND,
         Purpose.OTHER_ERRAND: PurposeCategory.ERRAND,
+        Purpose.PERSONAL_BUSINESS: PurposeCategory.ERRAND,
+        Purpose.GAS: PurposeCategory.ERRAND,
         Purpose.MODE_CHANGE: PurposeCategory.CHANGE_MODE,
         Purpose.OTHER_RESIDENCE: PurposeCategory.OVERNIGHT,
         Purpose.TEMP_LODGING: PurposeCategory.OVERNIGHT,
-        Purpose.OTHER: PurposeCategory.OTHER,
-        Purpose.MISSING: PurposeCategory.MISSING,
-        Purpose.PNTA: PurposeCategory.PNTA,
-        Purpose.NOT_IMPUTABLE: PurposeCategory.NOT_IMPUTABLE,
+        Purpose.OTHER: PurposeCategory.OTHER
     }
 
     @classmethod

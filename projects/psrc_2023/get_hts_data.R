@@ -8,7 +8,9 @@ hh <- get_table(schema = 'HHSurvey', tbl_name = 'v_households_labels') %>%
   filter(survey_year %in% incl_years) %>%
   rename(hh_id = household_id) %>%
   select(hh_id,
-         hhincome_detailed,hhincome_followup,hhincome_broad,hhgroup,rent_own,res_type,hh_weight) %>%
+         hhincome_detailed,hhincome_followup,hhincome_broad,hhgroup,rent_own,res_type,vehicle_count,
+         home_lat, home_lng,
+         hh_weight) %>%
   mutate(home_in_region = 1)
 
 
@@ -17,7 +19,8 @@ person <- get_table(schema = 'HHSurvey', tbl_name = 'v_persons_labels') %>%
   rename(hh_id = household_id) %>%
   select(person_id,hh_id,
          age,education,employment,gender,industry,workplace,relationship,telecommute_freq,school_freq,schooltype,
-         adult_student,commute_freq,vehicle,person_weight)
+         adult_student,commute_freq,work_lng,work_lat,
+         person_weight)
 
 
 day <- get_table(schema = 'HHSurvey', tbl_name = 'v_days_labels') %>%

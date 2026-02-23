@@ -18,7 +18,8 @@ def add_parcel_to_dataframe(
     lon_col: str,
     lat_col: str,
     parcel_col_name: str,
-    parcel_id_field: str
+    parcel_id_field: str,
+    crs: str
 ) -> pl.DataFrame:
     """Add zone ID to dataframe based on lon/lat coordinates."""
     # Convert to GeoDataFrame
@@ -29,7 +30,7 @@ def add_parcel_to_dataframe(
         crs="EPSG:4326",
     )
     gdf.index.name = df_index
-    gdf = gdf.to_crs("EPSG:2285") 
+    gdf = gdf.to_crs(crs) 
 
     # Prepare parcel gdf for spatial join and ensure zone ID is string to handle nulls in pandas land
     parcel_prepared = parcel_gdf.loc[:, [parcel_id_field, "geometry"]].copy()
@@ -176,7 +177,8 @@ def locate_parcels(
             lon_col=lon_col,
             lat_col=lat_col,
             parcel_col_name=output_col,
-            parcel_id_field=parcel_id
+            parcel_id_field=parcel_id,
+            crs=crs
         )
 
         # join wth parcel_zone_lookup to get zone IDs for this location

@@ -19,7 +19,7 @@ person <- get_table(schema = 'HHSurvey', tbl_name = 'v_persons_labels') %>%
   rename(hh_id = household_id) %>%
   select(person_id,hh_id,
          age,education,employment,gender,industry,workplace,relationship,telecommute_freq,school_freq,schooltype,
-         adult_student,commute_freq,work_lng,work_lat,
+         adult_student,commute_freq,work_lng,work_lat,school_loc_lng,school_loc_lat,
          person_weight)
 
 

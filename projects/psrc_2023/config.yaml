@@ -54,3 +54,26 @@ steps:
   - name: extract_tours
     validate_input: false
     cache: true
+    
+  - name: locate_parcels
+    validate_input: false
+    cache: true
+    params:
+      parcel_geography: "R:/e2projects_two/SoundCast/Inputs/dev/landuse/2023/base_year/parcels_urbansim.txt"
+      parcel_id: "parcelid"
+      x_coord: "xcoord_p"
+      y_coord: "ycoord_p"
+      crs: "EPSG:2285"
+      parcel_to_zones:
+        - zone_name: "maz"  
+          lookup_file: "R:/e2projects_two/activitysim/conversion/geographic_crosswalks/parcel_taz_block_lookup.csv"
+          match_parcel_id: "parcel_id"
+          zone_id_field: "maz_id"
+        - zone_name: "taz"  
+          lookup_file: "R:/e2projects_two/activitysim/conversion/geographic_crosswalks/parcel_taz_block_lookup.csv"
+          match_parcel_id: "parcel_id"
+          zone_id_field: "taz_id"
+          
+  # - name: final_check
+  #   validate_input: true
+  

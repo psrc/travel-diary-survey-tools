@@ -14,6 +14,7 @@ import yaml
 from pipeline.decoration import step
 from pipeline.pipeline import Pipeline
 from processing import (
+    locate_parcels,
     detect_joint_trips,
     extract_tours,
     format_daysim,
@@ -193,7 +194,7 @@ def custom_add_zone_ids(
 processing_steps = [
     load_data,
     clean_2023_psrc_hts,
-    custom_add_zone_ids,
+    locate_parcels,
     link_trips,
     detect_joint_trips,
     extract_tours,

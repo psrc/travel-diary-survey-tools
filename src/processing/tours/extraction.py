@@ -97,8 +97,8 @@ logger = logging.getLogger(__name__)
 def extract_tours(
     persons: pl.DataFrame,
     households: pl.DataFrame,
-    unlinked_trips: pl.DataFrame,
     linked_trips: pl.DataFrame,
+    unlinked_trips: pl.DataFrame | None = None,
     joint_trips: pl.DataFrame | None = None,
     **kwargs: dict[str, Any],
 ) -> dict[str, pl.DataFrame]:
@@ -216,9 +216,12 @@ def extract_tours(
     )
     logger.info(msg)
 
-    return {
+    result = {
         "persons": persons_ptype,
         "unlinked_trips": unlinked_trips_with_tour_ids,
         "linked_trips": linked_trips_with_tour_dir,
         "tours": tours,
     }
+    
+    # remove unlinked trips if None
+    return {table: df for table, df in result.items() if df is not None}

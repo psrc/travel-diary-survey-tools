@@ -90,8 +90,14 @@ def locate_parcels(
         joint_trips: Joint trips dataframe
         parcel_geography: Path to file with parcel centroids (str)
         parcel_to_zones: List of dicts, each containing:
-            - lookup_file: Path to file mapping parcel IDs to zone IDs (str)
             - zone_name: Short name for zone type (e.g., 'taz', 'maz', 'county')
+            - lookup_file: Path to file mapping parcel IDs to zone IDs (str)
+            - match_parcel_id: Parcel ID field in lookup file to match parcel (str)
+            - zone_id_field: Zone ID field in lookup file (str)
+        parcel_id: Parcel ID field in parcel_geography file (str),
+        x_coord: x coordinate field in parcel_geography file (str),
+        y_coord: y coordinate field in parcel_geography file (str),
+        crs: Coordinate reference system for parcel geometry (str),
 
     Returns:
         Dictionary with updated dataframes

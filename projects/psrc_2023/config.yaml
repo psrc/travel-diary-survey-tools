@@ -59,7 +59,7 @@ steps:
     validate_input: false
     cache: true
     params:
-      parcel_geography: "R:/e2projects_two/SoundCast/Inputs/dev/landuse/2023/base_year/parcels_urbansim.txt"
+      parcel_geography: "R:/e2projects_two/SoundCast/Inputs/dev/landuse/2023/23_on_23_v3/parcels_urbansim.txt"
       parcel_id: "parcelid"
       x_coord: "xcoord_p"
       y_coord: "ycoord_p"
@@ -76,3 +76,11 @@ steps:
           
   # - name: final_check
   #   validate_input: true
+  # This prepares a new set of files formatted for DaySim
+  - name: format_daysim
+    validate_input: false
+    cache: false
+    params:
+      drop_partial_tours: true
+      drop_missing_taz: true
+      drop_invalid_tours: true

@@ -27,17 +27,27 @@ def clean_2023_psrc_hts(
 
     households = households.rename(
         {
-        "home_lng": "home_lon",
+            "home_lng": "home_lon",
         }
     )
 
     persons = persons.rename(
         {
-        "adult_student": "student",
-        "schooltype": "school_type",
-        "work_lng": "work_lon",
-        "school_loc_lat": "school_lat",
-        "school_loc_lng": "school_lon",
+            "pernum": "person_num",
+            "adult_student": "student",
+            "schooltype": "school_type",
+            "work_lng": "work_lon",
+            "school_loc_lat": "school_lat",
+            "school_loc_lng": "school_lon",
+            "commute_subsidy_1": "transit_pass",
+            "commute_subsidy_3": "work_park",
+            "person_weight": "psexpfac"
+        }
+    )
+
+    days = days.rename(
+        {
+            "day_iscomplete": "is_complete",
         }
     )
 
@@ -68,24 +78,24 @@ def clean_2023_psrc_hts(
     # rename variables in trip table
     linked_trips = linked_trips.rename(
         {
-        "depart_time_hour": "depart_hour",
-        "depart_time_minute": "depart_minute",
-        "depart_time_second": "depart_seconds",
-        "arrival_time_hour": "arrive_hour",
-        "arrival_time_minute": "arrive_minute",
-        "arrival_time_second": "arrive_seconds",
-        "dest_lng": "d_lon",
-        "dest_lat": "d_lat",
-        "origin_lng": "o_lon",
-        "origin_lat": "o_lat",
-        "origin_purpose": "o_purpose",
-        "dest_purpose": "d_purpose",
-        "origin_purpose_cat": "o_purpose_category",
-        "dest_purpose_cat": "d_purpose_category",
-        "mode_class": "mode_type",
-        "mode_acc": "access_mode",
-        "mode_egr": "egress_mode",
-        "trip_id": "linked_trip_id"
+            "depart_time_hour": "depart_hour",
+            "depart_time_minute": "depart_minute",
+            "depart_time_second": "depart_seconds",
+            "arrival_time_hour": "arrive_hour",
+            "arrival_time_minute": "arrive_minute",
+            "arrival_time_second": "arrive_seconds",
+            "dest_lng": "d_lon",
+            "dest_lat": "d_lat",
+            "origin_lng": "o_lon",
+            "origin_lat": "o_lat",
+            "origin_purpose": "o_purpose",
+            "dest_purpose": "d_purpose",
+            "origin_purpose_cat": "o_purpose_category",
+            "dest_purpose_cat": "d_purpose_category",
+            "mode_class": "mode_type",
+            "mode_acc": "access_mode",
+            "mode_egr": "egress_mode",
+            "trip_id": "linked_trip_id"
         }
     )
 

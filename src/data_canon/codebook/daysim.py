@@ -33,11 +33,9 @@ class DaysimPathType(LabeledEnum):
 
     NONE = (0, "None")
     FULL_NETWORK = (1, "Full network")
-    NO_TOLL = (2, "No-toll network")
     BUS = (3, "Bus")
-    LRT = (4, "Light rail")
-    PREMIUM = (5, "Premium (commuter rail/express bus)")
-    BART = (6, "BART")
+    RAIL_URBAN = (4, "Urban Rail")
+    RAIL_COMMUTER = (6, "Commuter rail")
     FERRY = (7, "Ferry")
 
 

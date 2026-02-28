@@ -76,6 +76,7 @@ GENDER_TO_DAYSIM = {
     Gender.FEMALE: DaysimGender.FEMALE,
     Gender.MALE: DaysimGender.MALE,
     Gender.NON_BINARY: DaysimGender.OTHER,
+    Gender.OTHER: DaysimGender.OTHER,
     Gender.MISSING: DaysimGender.MISSING,
     Gender.PNTA: DaysimGender.MISSING,
 }
@@ -92,9 +93,13 @@ STUDENT_TO_DAYSIM = {
 
 # Work parking to DaySim paid parking (simplified from survey to binary)
 WORK_PARK_TO_DAYSIM = {
-    WorkParking.NO: DaysimPaidParking.PAID,
-    WorkParking.EMPLOYER_PAYS: DaysimPaidParking.FREE,
+    WorkParking.FREE: DaysimPaidParking.FREE,
+    WorkParking.EMPLOYER_PAYS_ALL: DaysimPaidParking.FREE,
+    WorkParking.EMPLOYER_DISCOUNT: DaysimPaidParking.PAID,
+    WorkParking.PERSONAL_PAY: DaysimPaidParking.PAID,
     WorkParking.MISSING: DaysimPaidParking.MISSING,
+    WorkParking.NOT_APPLICABLE: DaysimPaidParking.MISSING,
+    WorkParking.DONT_KNOW: DaysimPaidParking.MISSING,
 }
 
 # Residence ownership to DaySim codes
@@ -170,54 +175,54 @@ PURPOSE_TO_DAYSIM = {
 }
 
 # Transit mode to DaySim path type mapping
-# TRANSIT_MODE_TO_PATH_TYPE = {
-#     Mode.FERRY: DaysimPathType.FERRY,
-#     Mode.BART: DaysimPathType.BART,
-#     Mode.RAIL_INTERCITY: DaysimPathType.PREMIUM,
-#     Mode.RAIL_OTHER: DaysimPathType.PREMIUM,
-#     Mode.BUS_EXPRESS: DaysimPathType.PREMIUM,
-#     Mode.MUNI_METRO: DaysimPathType.LRT,
-#     Mode.RAIL: DaysimPathType.LRT,
-#     Mode.STREETCAR: DaysimPathType.LRT,
-# }
+TRANSIT_MODE_TO_PATH_TYPE = {
+    Mode.FERRY: DaysimPathType.FERRY,
+    Mode.BART: DaysimPathType.BART,
+    Mode.RAIL_INTERCITY: DaysimPathType.PREMIUM,
+    Mode.RAIL_OTHER: DaysimPathType.PREMIUM,
+    Mode.BUS_EXPRESS: DaysimPathType.PREMIUM,
+    Mode.MUNI_METRO: DaysimPathType.LRT,
+    Mode.RAIL: DaysimPathType.LRT,
+    Mode.STREETCAR: DaysimPathType.LRT,
+}
 
 # Mode to DaySim mode codes
 MODE_TYPE_TO_DAYSIM = {
     ModeType.WALK: DaysimMode.WALK,
     ModeType.BIKE: DaysimMode.BIKE,
+    ModeType.BIKESHARE: DaysimMode.BIKE,
+    ModeType.SCOOTERSHARE: DaysimMode.BIKE,
     ModeType.CAR: DaysimMode.SOV,  # Will be refined to HOV2/HOV3 based on occ
+    ModeType.CARSHARE: DaysimMode.SOV,
     ModeType.TNC: DaysimMode.TNC,
+    ModeType.TAXI: DaysimMode.TNC,
     ModeType.FERRY: DaysimMode.WALK_TRANSIT,
     ModeType.TRANSIT: DaysimMode.WALK_TRANSIT,  # Will be refined based on access/egress mode  # noqa: E501
     ModeType.SCHOOL_BUS: DaysimMode.SCHOOL_BUS,
+    ModeType.SHUTTLE: DaysimMode.OTHER,
     ModeType.LONG_DISTANCE: DaysimMode.OTHER,
     ModeType.OTHER: DaysimMode.OTHER,
-    ModeType.BIKESHARE: DaysimMode.OTHER,
-    ModeType.SCOOTERSHARE: DaysimMode.OTHER,
-    ModeType.CARSHARE: DaysimMode.OTHER,
-    ModeType.TAXI: DaysimMode.OTHER,
-    ModeType.SHUTTLE: DaysimMode.OTHER,
     ModeType.MISSING: DaysimMode.OTHER,
 }
 
 # ModeType to AccessEgressMode mapping
-# MODE_TYPE_TO_ACCESS_EGRESS = {
-#     ModeType.WALK: AccessEgressMode.WALK,
-#     ModeType.BIKE: AccessEgressMode.BICYCLE,
-#     ModeType.BIKESHARE: AccessEgressMode.BICYCLE,
-#     ModeType.SCOOTERSHARE: AccessEgressMode.MICROMOBILITY,
-#     ModeType.TAXI: AccessEgressMode.TNC,
-#     ModeType.TNC: AccessEgressMode.TNC,
-#     ModeType.CAR: AccessEgressMode.CAR_HOUSEHOLD,
-#     ModeType.CARSHARE: AccessEgressMode.CAR_OTHER,
-#     ModeType.SCHOOL_BUS: AccessEgressMode.TRANSFER_BUS,
-#     ModeType.SHUTTLE: AccessEgressMode.TRANSFER_BUS,
-#     ModeType.FERRY: AccessEgressMode.TRANSFER_OTHER,
-#     ModeType.TRANSIT: AccessEgressMode.TRANSFER_OTHER,
-#     ModeType.LONG_DISTANCE: AccessEgressMode.TRANSFER_OTHER,
-#     ModeType.OTHER: AccessEgressMode.OTHER,
-#     ModeType.MISSING: AccessEgressMode.MISSING,
-# }
+MODE_TYPE_TO_ACCESS_EGRESS = {
+    ModeType.WALK: AccessEgressMode.WALK,
+    ModeType.BIKE: AccessEgressMode.BICYCLE,
+    ModeType.BIKESHARE: AccessEgressMode.BICYCLE,
+    ModeType.SCOOTERSHARE: AccessEgressMode.MICROMOBILITY,
+    ModeType.TAXI: AccessEgressMode.TNC,
+    ModeType.TNC: AccessEgressMode.TNC,
+    ModeType.CAR: AccessEgressMode.CAR_HOUSEHOLD,
+    ModeType.CARSHARE: AccessEgressMode.CAR_OTHER,
+    ModeType.SCHOOL_BUS: AccessEgressMode.TRANSFER_BUS,
+    ModeType.SHUTTLE: AccessEgressMode.TRANSFER_BUS,
+    ModeType.FERRY: AccessEgressMode.TRANSFER_OTHER,
+    ModeType.TRANSIT: AccessEgressMode.TRANSFER_OTHER,
+    ModeType.LONG_DISTANCE: AccessEgressMode.TRANSFER_OTHER,
+    ModeType.OTHER: AccessEgressMode.OTHER,
+    ModeType.MISSING: AccessEgressMode.MISSING,
+}
 
 # Access/egress mode codes that indicate drove to transit
 DROVE_ACCESS_EGRESS = [
@@ -240,7 +245,7 @@ STUDENT_MAP = {k.value: v.value for k, v in STUDENT_TO_DAYSIM.items()}
 WORK_PARK_MAP = {k.value: v.value for k, v in WORK_PARK_TO_DAYSIM.items()}
 PURPOSE_MAP = {k.value: v.value for k, v in PURPOSE_TO_DAYSIM.items()}
 MODE_TYPE_MAP = {k.value: v.value for k, v in MODE_TYPE_TO_DAYSIM.items()}
-# MODE_TYPE_TO_ACCESS_EGRESS_MAP = {k.value: v.value for k, v in MODE_TYPE_TO_ACCESS_EGRESS.items()}
+MODE_TYPE_TO_ACCESS_EGRESS_MAP = {k.value: v.value for k, v in MODE_TYPE_TO_ACCESS_EGRESS.items()}
 RENTOWN_MAP = {k.value: v.value for k, v in RENTOWN_TO_DAYSIM.items()}
 RESTYPE_MAP = {k.value: v.value for k, v in RESIDENCE_TYPE_TO_DAYSIM.items()}
 

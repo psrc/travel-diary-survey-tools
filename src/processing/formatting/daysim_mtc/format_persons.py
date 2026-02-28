@@ -150,24 +150,24 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
             "school_lon": "psxco",
             "school_lat": "psyco",
             "work_taz": "pwtaz",
-            "work_parcel": "pwpcl",
+            "work_maz": "pwpcl",
             "school_taz": "pstaz",
-            "school_parcel": "pspcl",
+            "school_maz": "pspcl",
         }
     )
 
     # Apply basic field mappings and transformations
     persons_daysim = persons_daysim.with_columns(
         # Fill null coordinates with -1
-        pl.col(["pwtaz", "pwpcl", "pstaz", "pspcl"]).fill_null(-1).cast(pl.Int32),
+        pl.col(["pwtaz", "pwpcl", "pstaz", "pspcl"]).fill_null(-1),
         # Map age categories to midpoint ages
-        pagey=pl.col("age").replace(AGE_MAP).cast(pl.Int32),
+        pagey=pl.col("age").replace(AGE_MAP),
         # Map gender codes
-        pgend=pl.col("gender").replace(GENDER_MAP).cast(pl.Int32),
+        pgend=pl.col("gender").replace(GENDER_MAP),
         # Map student status
-        pstyp=pl.col("student").replace(STUDENT_MAP).fill_null(DaysimStudentType.NOT_STUDENT.value).cast(pl.Int32),
+        pstyp=pl.col("student").replace(STUDENT_MAP).fill_null(DaysimStudentType.NOT_STUDENT.value),
         # Map work parking (use work_park from canonical data)
-        ppaidprk=pl.col("work_park").replace_strict(WORK_PARK_MAP).cast(pl.Int32),
+        ppaidprk=pl.col("work_park").replace_strict(WORK_PARK_MAP),
     )
 
     # Derive person type (pptyp) using cascading logic
@@ -324,13 +324,11 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
         puwarrp=pl.lit(-1),  # usual work arrival period (not available)
         puwdepp=pl.lit(-1),  # usual work departure period (not available)
         # transit pass
-        ptpass=pl.when((pl.col("transit_pass") == "Selected") | 
-                       (pl.col("pptyp").is_in([6,7,8])) # ages under 0-18 ride transit free
-                       ).then(1).otherwise(0),
+        ptpass=pl.when(pl.col("transit_pass") == BooleanYesNo.YES.value).then(1).otherwise(0),
         # proxy respondent
-        pproxy=pl.lit(0),
+        pproxy=pl.when(pl.col("is_proxy") == BooleanYesNo.YES.value).then(1).otherwise(0),
         # has diary day
-        pdiary=pl.lit(0),
+        pdiary=pl.when(pl.col("num_days_complete") > 0).then(1).otherwise(0),
     )
 
     # Join day completeness if available

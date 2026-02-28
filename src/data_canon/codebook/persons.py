@@ -72,17 +72,16 @@ class Ethnicity(LabeledEnum):
     PNTA = (999, "Prefer not to answer")
 
 
-class Gender(LabeledEnum):
+class Gender(StrEnum):
     """gender value labels."""
 
     canonical_field_name = "gender"
 
-    FEMALE = (1, "Female")
-    MALE = (2, "Male")
-    NON_BINARY = (4, "Non-binary")
-    MISSING = (995, "Missing Response")
-    OTHER = (997, "Other/prefer to self-describe")
-    PNTA = (999, "Prefer not to answer")
+    FEMALE = "Girl/Woman (cisgender or transgender)"
+    MALE = "Boy/Man (cisgender or transgender)"
+    NON_BINARY = "Non-binary/Something else fits better"
+    MISSING = "Missing Response"
+    PNTA = "Prefer not to answer"
 
 
 class Industry(LabeledEnum):
@@ -316,18 +315,11 @@ class PersonType(LabeledEnum):
     CHILD_UNDER_5 = (8, "Child 0-4")
 
 
-class WorkParking(LabeledEnum):
-    """work_park value labels."""
+class WorkParking(StrEnum):
+    """workpass value labels."""
 
     canonical_field_name = "work_park"
 
-    FREE = (1, "Parking is always free at/near work, at park & ride, etc.")
-    EMPLOYER_PAYS_ALL = (2, "Employer pays ALL parking costs (for me)")
-    EMPLOYER_DISCOUNT = (3, "Employer offers discounted parking (I pay some)")
-    PERSONAL_PAY = (
-        4,
-        "I personally pay some or all parking costs (employer pays none)",
-    )
-    MISSING = (995, "Missing Response")
-    NOT_APPLICABLE = (996, "Not applicable (I never drive to work)")
-    DONT_KNOW = (998, "Don't know")
+    NO = "Not selected"
+    EMPLOYER_PAYS = "Selected"
+    MISSING = "Missing Response"

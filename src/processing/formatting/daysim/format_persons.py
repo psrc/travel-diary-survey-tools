@@ -341,7 +341,7 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
     person_cols = [
         "hhno",
         "pno",
-        "pptyp",
+        "person_id", # keep original person_id
         "pagey",
         "pgend",
         "pwtyp",

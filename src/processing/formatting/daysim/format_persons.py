@@ -408,6 +408,7 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame, households: pl.Dat
         "hhno",
         "pno",
         "person_id", # keep original person_id
+        "pptyp",
         "pagey",
         "pgend",
         "pwtyp",

@@ -17,10 +17,17 @@ hh <- get_table(schema = 'HHSurvey', tbl_name = 'v_households_labels') %>%
 person <- get_table(schema = 'HHSurvey', tbl_name = 'v_persons_labels') %>%
   filter(survey_year %in% incl_years) %>%
   rename(hh_id = household_id) %>%
+  # reassign school in region column
+  mutate(
+    school_in_region = case_when(
+     is.na(school_loc_lat)~NA,
+     school_county %in% c("King County","Kitsap County","Pierce County","Snohomish County")~ "Yes", 
+     TRUE~ "No")
+    ) %>%
   select(person_id,hh_id,pernum,
          age,education,employment,gender,industry,workplace,relationship,telecommute_freq,school_freq,schooltype,
          adult_student,commute_freq,work_mode,commute_subsidy_1,commute_subsidy_3,
-         work_lng,work_lat,school_loc_lng,school_loc_lat,
+         work_lng,work_lat,school_loc_lng,school_loc_lat,school_in_region,
          person_weight)
 
 

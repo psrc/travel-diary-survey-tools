@@ -12,8 +12,11 @@ from data_canon.codebook.daysim import (
 from data_canon.codebook.generic import BooleanYesNo
 from data_canon.codebook.persons import (
     Employment,
+    JobType,
     SchoolType,
     Student,
+    SchoolInRegion,
+    CommuteFreq
 )
 from data_canon.codebook.trips import ModeType
 
@@ -111,7 +114,7 @@ def compute_day_completeness(days: pl.DataFrame) -> pl.DataFrame:
     return result.sort(by=["hhno", "pno"])
 
 
-def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
+def format_persons(persons: pl.DataFrame, days: pl.DataFrame, households: pl.DataFrame | None) -> pl.DataFrame:
     """Format person data to DaySim specification.
 
     Applies mapping dictionaries and derives person type (pptyp) and worker
@@ -131,6 +134,7 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
     Args:
         persons: DataFrame with canonical person fields
         days: Optional DataFrame with day completeness indicators
+        households: Optional DataFrame with household fields (for assigning work/school locations)
 
     Returns:
         DataFrame with DaySim person fields
@@ -279,7 +283,7 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
             )
         )
         .then(pl.lit(DaysimPersonType.PART_TIME_WORKER.value))
-        .otherwise(pl.lit(0))  # non-worker
+        .otherwise(DaysimWorkerType.NON_WORKER.value)  # non-worker
     )
 
     # Set work/school locations to -1 if person is not worker/student
@@ -308,6 +312,68 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
         psyco=pl.when(pl.col("pstyp") != DaysimStudentType.NOT_STUDENT.value)
         .then(pl.col("psyco"))
         .otherwise(pl.lit(-1)),
+    )
+
+    # set work/school locations to home locations for remote workers and online students
+    # get home locations from households
+    households_locations = households.select(
+        [
+            pl.col("hh_id").alias("hhno"),
+            pl.col("home_parcel"),
+            pl.col("home_taz"),
+            pl.col("home_lon"),
+            pl.col("home_lat"),
+        ]
+    )
+    persons_daysim = persons_daysim.join(households_locations, on="hhno", how="left")
+
+    # remote workers with no work location
+    wfh_pwpcl_condition = ((pl.col("job_type").is_in([JobType.WFH.value])) & (pl.col("pwtaz") == -1))
+    # online university students with school location outside region
+    online_pspcl_condition = (
+        (pl.col("pptyp")==DaysimPersonType.UNIVERSITY_STUDENT.value)
+            & (pl.col("student").is_in([Student.PARTTIME_ONLINE.value, Student.FULLTIME_ONLINE.value]))
+            & (pl.col("school_in_region") == SchoolInRegion.OUT_OF_REGION.value)
+    )
+
+    persons_daysim = persons_daysim.with_columns(
+        # assign home location if no work location for remote workers
+        pwpcl=pl.when(wfh_pwpcl_condition).then(pl.col("home_parcel")).otherwise(pl.col("pwpcl")),
+        pwtaz=pl.when(wfh_pwpcl_condition).then(pl.col("home_taz")).otherwise(pl.col("pwtaz")),
+        pwxco=pl.when(wfh_pwpcl_condition).then(pl.col("home_lon")).otherwise(pl.col("pwxco")),
+        pwyco=pl.when(wfh_pwpcl_condition).then(pl.col("home_lat")).otherwise(pl.col("pwyco")),
+        # replace school location with home location for online university students with school location outside region
+        pspcl=pl.when(online_pspcl_condition).then(pl.col("home_parcel")).otherwise(pl.col("pspcl")),
+        pstaz=pl.when(online_pspcl_condition).then(pl.col("home_taz")).otherwise(pl.col("pstaz")),
+        psxco=pl.when(online_pspcl_condition).then(pl.col("home_lon")).otherwise(pl.col("psxco")),
+        psyco=pl.when(online_pspcl_condition).then(pl.col("home_lat")).otherwise(pl.col("psyco")),
+    )
+
+
+    # add worker type
+    persons_daysim = persons_daysim.with_columns(
+        # assign home location if no work location for remote workers
+        worker_type=pl.when(
+                (pl.col("pwtyp") != DaysimWorkerType.NON_WORKER.value)
+                & (pl.col("pwpcl") == pl.col("home_parcel"))
+            )
+            .then(pl.lit("wfh"))
+            .when(
+                (pl.col("pwtyp") != DaysimWorkerType.NON_WORKER.value)
+                & (pl.col("telecommute_freq").is_in(
+                    [
+                        CommuteFreq.DAYS_3.value, 
+                        CommuteFreq.DAYS_4.value, 
+                        CommuteFreq.DAYS_5.value, 
+                        CommuteFreq.DAYS_6_7.value
+                    ]
+                ))
+            )
+            .then(pl.lit("telecommuter"))
+            .when(
+                (pl.col("pwtyp") != DaysimWorkerType.NON_WORKER.value)
+            )
+            .then(pl.lit("commuter"))
     )
 
     # Add default expansion factor
@@ -365,6 +431,7 @@ def format_persons(persons: pl.DataFrame, days: pl.DataFrame) -> pl.DataFrame:
         "pwyco",
         "psxco",
         "psyco",
+        "worker_type",
         "psexpfac",
     ]
 

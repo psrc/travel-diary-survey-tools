@@ -140,7 +140,7 @@ def format_daysim(  # noqa: PLR0913
     # Format each table
 
     # Format persons, includes day for completeness computation
-    persons_daysim = format_persons(persons, days)
+    persons_daysim = format_persons(persons, days, households)
 
     # Format households, requires the daysim formatted person types
     households_daysim = format_households(households, persons_daysim)

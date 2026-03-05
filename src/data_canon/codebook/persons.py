@@ -116,22 +116,19 @@ class Industry(LabeledEnum):
     OTHER_SPECIFY = (997, "Other, please specify")
 
 
-class JobType(LabeledEnum):
+class JobType(StrEnum):
     """job_type value labels."""
 
     canonical_field_name = "job_type"
 
     # NONWORKER = (0, "Non-worker")
-    FIXED = (1, "Go to one work location ONLY (outside of home)")
-    VARIES = (2, "Work location regularly varies (different offices/jobsites)")
-    WFH = (3, "Work ONLY from home or remotely (telework, self-employed)")
-    DELIVERY = (4, "Drive/bike/travel for work (driver, sales, deliveries)")
-    HYBRID = (
-        5,
-        "Work remotely some days and travel to a work location some days",
-    )
-    MISSING = (995, "Missing Response")
-
+    FIXED = "Usually the same location (outside home)"
+    VARIES = "Workplace regularly varies (different offices or jobsites)"
+    WFH = "At home (telecommute or self-employed with home office)"
+    DELIVERY = "Drives for a living (e.g., bus driver, salesperson)"
+    HYBRID = "Telework some days and travel to a work location some days"
+    MISSING = "Missing: Skip Logic"
+  
 
 class Occupation(LabeledEnum):
     """occupation value labels."""
@@ -251,6 +248,14 @@ class SchoolType(StrEnum):
     PNTA = "Prefer not to answer"
     OTHER = "Other"
 
+class SchoolInRegion(StrEnum):
+    """school_in_region value labels."""
+
+    canonical_field_name = "school_in_region"
+
+    IN_REGION = "Yes"
+    OUT_OF_REGION = "No"
+
 
 class Student(StrEnum):
     """student value labels."""
@@ -265,19 +270,19 @@ class Student(StrEnum):
     MISSING = "Missing Response"
 
 
-class CommuteFreq(LabeledEnum):
+class CommuteFreq(StrEnum):
     """commute and telework frequency value labels."""
 
-    DAYS_6_7 = (1, "6-7 days a week")
-    DAYS_5 = (2, "5 days a week")
-    DAYS_4 = (3, "4 days a week")
-    DAYS_3 = (4, "3 days a week")
-    DAYS_2 = (5, "2 days a week")
-    DAY_1 = (6, "1 day a week")
-    DAYS_1_3_PER_MONTH = (7, "1-3 days a month")
-    LESS_THAN_MONTHLY = (8, "Less than monthly")
-    MISSING = (995, "Missing Response")
-    NEVER = (996, "Never")
+    DAYS_6_7 = "6-7 days a week"
+    DAYS_5 = "5 days a week"
+    DAYS_4 = "4 days a week"
+    DAYS_3 = "3 days a week"
+    DAYS_2 = "2 days a week"
+    DAY_1 = "1 day a week"
+    DAYS_1_3_PER_MONTH = "A few times per month"
+    LESS_THAN_MONTHLY = "Less than monthly"
+    MISSING = "Missing: Skip Logic"
+    NEVER = "Never"
 
 
 class Vehicle(LabeledEnum):

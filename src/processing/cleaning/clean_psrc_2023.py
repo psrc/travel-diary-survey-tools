@@ -36,6 +36,7 @@ def clean_2023_psrc_hts(
             "pernum": "person_num",
             "adult_student": "student",
             "schooltype": "school_type",
+            "workplace": "job_type",
             "work_lng": "work_lon",
             "school_loc_lat": "school_lat",
             "school_loc_lng": "school_lon",

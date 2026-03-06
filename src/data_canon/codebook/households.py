@@ -1,6 +1,7 @@
 """Codebook enumerations for hh table."""
 
 from data_canon.core.labeled_enum import LabeledEnum
+from enum import StrEnum
 
 
 class BicycleType(LabeledEnum):
@@ -23,52 +24,51 @@ class HomeInRegion(LabeledEnum):
     YES = (1, "Yes")
 
 
-class IncomeDetailed(LabeledEnum):
+class IncomeDetailed(StrEnum):
     """income_detailed value labels."""
 
     canonical_field_name = "income_detailed"
 
-    INCOME_UNDER15 = (1, "Under $15,000")
-    INCOME_15TO25 = (2, "$15,000-$24,999")
-    INCOME_25TO35 = (3, "$25,000-$34,999")
-    INCOME_35TO50 = (4, "$35,000-$49,999")
-    INCOME_50TO75 = (5, "$50,000-$74,999")
-    INCOME_75TO100 = (6, "$75,000-$99,999")
-    INCOME_100TO150 = (7, "$100,000-$149,999")
-    INCOME_150TO200 = (8, "$150,000-$199,999")
-    INCOME_200TO250 = (9, "$200,000-$249,999")
-    INCOME_250_OR_MORE = (10, "$250,000 or more")
-    PNTA = (999, "Prefer not to answer")
+    INCOME_UNDER10 = "Under $10,000"
+    INCOME_10TO25 = "$10,000-$24,999"
+    INCOME_25TO35 = "$25,000-$34,999"
+    INCOME_35TO50 = "$35,000-$49,999"
+    INCOME_50TO75 = "$50,000-$74,999"
+    INCOME_75TO100 = "$75,000-$99,999"
+    INCOME_100TO150 = "$100,000-$149,999"
+    INCOME_150TO200 = "$150,000-$199,999"
+    INCOME_200TO250 = "$200,000-$249,999"
+    INCOME_250_OR_MORE = "$250,000 or more"
+    PNTA = "Prefer not to answer"
 
 
-class IncomeFollowup(LabeledEnum):
+class IncomeFollowup(StrEnum):
     """income_followup value labels."""
 
     canonical_field_name = "income_followup"
 
-    INCOME_UNDER25 = (1, "Under $25,000")
-    INCOME_25TO50 = (2, "$25,000-$49,999")
-    INCOME_50TO75 = (3, "$50,000-$74,999")
-    INCOME_75TO100 = (4, "$75,000-$99,999")
-    INCOME_100TO200 = (5, "$100,000-$199,999")
-    INCOME_200_OR_MORE = (6, "$200,000 or more")
-    MISSING = (995, "Missing Response")
-    PNTA = (999, "Prefer not to answer")
+    INCOME_UNDER25 = "Under $25,000"
+    INCOME_25TO50 = "$25,000-$49,999"
+    INCOME_50TO75 = "$50,000-$74,999"
+    INCOME_75TO100 = "$75,000-$99,999"
+    INCOME_100TO200 = "$100,000-$199,999"
+    INCOME_200_OR_MORE = "$200,000 or more"
+    MISSING = "Missing: Skip Logic"
+    PNTA = "Prefer not to answer"
 
 
-class IncomeBroad(LabeledEnum):
+class IncomeBroad(StrEnum):
     """income_broad value labels."""
 
     canonical_field_name = "income_broad"
 
-    INCOME_UNDER25 = (1, "Under $25,000")
-    INCOME_25TO50 = (2, "$25,000-$49,999")
-    INCOME_50TO75 = (3, "$50,000-$74,999")
-    INCOME_75TO100 = (4, "$75,000-$99,999")
-    INCOME_100TO200 = (5, "$100,000-$199,999")
-    INCOME_200_OR_MORE = (6, "$200,000 or more")
-    MISSING = (995, "Missing Response")
-    PNTA = (999, "Prefer not to answer")
+    INCOME_UNDER25 = "Under $25,000"
+    INCOME_25TO50 = "$25,000-$49,999"
+    INCOME_50TO75 = "$50,000-$74,999"
+    INCOME_75TO100 = "$75,000-$99,999"
+    INCOME_100TO200 = "$100,000-$199,999"
+    INCOME_200_OR_MORE = "$200,000 or more"
+    PNTA = "Prefer not to answer"
 
 
 class ParticipationGroup(LabeledEnum):
@@ -103,38 +103,30 @@ class ParticipationGroup(LabeledEnum):
     SIGNUP_RMOVE_DIARY_RMOVE = (9, "Signup via rMove, Diary via rMove")
 
 
-class ResidenceRentOwn(LabeledEnum):
+class ResidenceRentOwn(StrEnum):
     """residence_rent_own value labels."""
 
     canonical_field_name = "residence_rent_own"
 
-    OWN = (1, "Own/buying (paying a mortgage)")
-    RENT = (2, "Rent")
-    NOPAYMENT_EMPLOYER = (3, "Housing provided by job or military")
-    NOPAYMENT_OTHER = (
-        4,
-        "Provided by family or friend without payment or rent",
-    )
-    MISSING = (995, "Missing Response")
-    OTHER = (997, "Other")
-    PNTA = (999, "Prefer not to answer")
+    OWN = "Own/paying mortgage" 
+    RENT = "Rent"
+    NOPAYMENT_EMPLOYER = "Provided by job or military"
+    NOPAYMENT_OTHER = "Provided by family, relative, or friend without payment or rent"
+    MISSING = "Missing Response"
+    OTHER = "Other"
+    PNTA = "Prefer not to answer"
 
 
-class ResidenceType(LabeledEnum):
+class ResidenceType(StrEnum):
     """residence_type value labels."""
 
     canonical_field_name = "residence_type"
 
-    SFH = (1, "Single-family house (detached house)")
-    TOWNHOUSE = (
-        2,
-        "Single-family house attached to one or more houses (rowhouse or townhouse)",
-    )
-    MULTIFAMILY = (3, "Building with 2-4 units (duplexes, triplexes, quads)")
-    CONDO_5TO50_UNITS = (4, "Building with 5-49 apartments/condos")
-    CONDO_50PLUS_UNITS = (5, "Building with 50 or more apartments/condos")
-    SENIOR = (6, "Senior or age-restricted apartments/condos")
-    MANUFACTURED = (7, "Manufactured home/mobile home/trailer")
-    GROUP_QUARTERS = (9, "Dorm, group quarters, or institutional housing")
-    MISSING = (995, "Missing Response")
-    BOAT_RV = (997, "Other (e.g., boat, RV, van)")
+    SFH = "Single-family house (detached house)"
+    TOWNHOUSE = "Townhouse (attached house)"
+    APART_CONDO_3FEWER = "Building with 3 or fewer apartments/condos"
+    APART_CONDO_4MORE = "Building with 4 or more apartments/condos"
+    MOBILE = "Mobile home/trailer"
+    GROUP_QUARTERS = "Dorm or institutional housing" 
+    MISSING = "Missing Response"
+    BOAT_RV = "Other (including boat, RV, van, etc.)"

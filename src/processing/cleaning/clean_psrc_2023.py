@@ -28,6 +28,12 @@ def clean_2023_psrc_hts(
     households = households.rename(
         {
             "home_lng": "home_lon",
+            "vehicle_count": "num_vehicles",
+            "numworkers": "num_workers",
+            "hhincome_detailed": "income_detailed",
+            "hhincome_followup": "income_followup",
+            "rent_own": "residence_rent_own",
+            "res_type": "residence_type",
         }
     )
 
@@ -42,7 +48,7 @@ def clean_2023_psrc_hts(
             "school_loc_lng": "school_lon",
             "commute_subsidy_1": "transit_pass",
             "commute_subsidy_3": "work_park",
-            "person_weight": "psexpfac"
+            # "person_weight": "psexpfac"
         }
     )
 

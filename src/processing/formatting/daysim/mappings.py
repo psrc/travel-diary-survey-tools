@@ -112,11 +112,9 @@ RENTOWN_TO_DAYSIM = {
 RESIDENCE_TYPE_TO_DAYSIM = {
     ResidenceType.SFH: DaysimResidenceType.SINGLE_FAMILY,
     ResidenceType.TOWNHOUSE: DaysimResidenceType.DUPLEX_TOWNHOUSE,
-    ResidenceType.MULTIFAMILY: DaysimResidenceType.APARTMENT,
-    ResidenceType.CONDO_5TO50_UNITS: DaysimResidenceType.APARTMENT,
-    ResidenceType.CONDO_50PLUS_UNITS: DaysimResidenceType.APARTMENT,
-    ResidenceType.SENIOR: DaysimResidenceType.APARTMENT,
-    ResidenceType.MANUFACTURED: DaysimResidenceType.MOBILE_HOME,
+    ResidenceType.APART_CONDO_3FEWER: DaysimResidenceType.APARTMENT,
+    ResidenceType.APART_CONDO_4MORE: DaysimResidenceType.APARTMENT,
+    ResidenceType.MOBILE: DaysimResidenceType.MOBILE_HOME,
     ResidenceType.GROUP_QUARTERS: DaysimResidenceType.DORM,
     ResidenceType.MISSING: DaysimResidenceType.MISSING,
     ResidenceType.BOAT_RV: DaysimResidenceType.OTHER,
@@ -124,8 +122,8 @@ RESIDENCE_TYPE_TO_DAYSIM = {
 
 # Income categories to midpoint values (detailed from survey)
 INCOME_DETAILED_TO_MIDPOINT = {
-    IncomeDetailed.INCOME_UNDER15.value: 7500,
-    IncomeDetailed.INCOME_15TO25.value: 20000,
+    IncomeDetailed.INCOME_UNDER10.value: 5000,
+    IncomeDetailed.INCOME_10TO25.value: 17500,
     IncomeDetailed.INCOME_25TO35.value: 30000,
     IncomeDetailed.INCOME_35TO50.value: 42500,
     IncomeDetailed.INCOME_50TO75.value: 62500,

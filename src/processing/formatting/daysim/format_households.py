@@ -60,11 +60,10 @@ def format_households(
     households_daysim = households.rename(
         {
             "hh_id": "hhno",
-            "home_maz": "hhparcel",
+            "home_parcel": "hhparcel",
             "home_taz": "hhtaz",
             "home_lon": "hhxco",
             "home_lat": "hhyco",
-            "num_people": "hhsize",
             "num_vehicles": "hhvehs",
             "num_workers": "hhwkrs",
             "hh_weight": "hhexpfac",
@@ -74,10 +73,10 @@ def format_households(
     # Map income categories to midpoint values
     # (fill null first to avoid type issues)
     households_daysim = households_daysim.with_columns(
-        pl.col("income_detailed").fill_null(-1).replace(INCOME_DETAILED_TO_MIDPOINT),
-        pl.col("income_followup").fill_null(-1).replace(INCOME_FOLLOWUP_TO_MIDPOINT),
-        hownrent=pl.col("residence_rent_own").replace(RENTOWN_MAP),
-        hrestype=pl.col("residence_type").replace(RESTYPE_MAP),
+        pl.col("income_detailed").fill_null(-1).replace(INCOME_DETAILED_TO_MIDPOINT).cast(pl.Int32),
+        pl.col("income_followup").fill_null(-1).replace(INCOME_FOLLOWUP_TO_MIDPOINT).cast(pl.Int32),
+        hownrent=pl.col("residence_rent_own").replace(RENTOWN_MAP).cast(pl.Int32),
+        hrestype=pl.col("residence_type").replace(RESTYPE_MAP).cast(pl.Int32),
     )
 
     # Use income_detailed if available, otherwise income_followup

@@ -8,7 +8,8 @@ hh <- get_table(schema = 'HHSurvey', tbl_name = 'v_households_labels') %>%
   filter(survey_year %in% incl_years) %>%
   rename(hh_id = household_id) %>%
   select(hh_id,
-         hhincome_detailed,hhincome_followup,hhincome_broad,hhgroup,rent_own,res_type,vehicle_count,
+         hhincome_detailed,hhincome_followup,hhincome_broad,
+         rent_own,res_type,vehicle_count,numworkers,hhsize,
          home_lat, home_lng,
          hh_weight) %>%
   mutate(home_in_region = 1)
